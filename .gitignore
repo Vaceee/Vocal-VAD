@@ -1,0 +1,10 @@
+# docs
+*.docx
+*.pdf
+*.drawio
+task.md
+
+# dataset
+数据集
+dataset/train/*
+dataset/test/*
