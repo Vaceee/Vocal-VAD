@@ -67,12 +67,16 @@ def get_ste(nf, frames, windown):
 
 
 def tag_wav(ste, zcc, label, start, end, audio_map):
+    num_0 = 0
+    num_1 = 0
     for i in range(start, end):
         idx = audio_map[i]
         if ste[idx] > THRESHOLD_STE and zcc[idx] < THRESHOLD_ZCC:
-            label.append(1)
-            return label
-    label.append(0)
+            num_1 += 1
+        else:
+            num_0 += 1
+    prob = num_1 / (num_0 + num_1)
+    label.append(prob)
     return label
 
 

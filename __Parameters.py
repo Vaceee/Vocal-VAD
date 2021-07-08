@@ -5,4 +5,4 @@ THRESHOLD_ZCC = 250
 ZCC_DELTA = 0.02
 DURATION = 0.01
 
-FILEPATH = './vocals.wav'
+FILEPATH = './dataset/'
