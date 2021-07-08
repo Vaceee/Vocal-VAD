@@ -9,7 +9,7 @@ from __tag_tools import *
 
 
 DURATION = 0.01
-FILEPATH = './数据集/train/'
+FILEPATH = './dataset/spleeter/'
 
 
 def split(file, ste, zcc, audio_map):
@@ -57,12 +57,14 @@ def split(file, ste, zcc, audio_map):
 
 if __name__ == '__main__':
 
-    allLabel=pd.DataFrame(columns=['song','time','label'])
-    start=0
+    # allLabel=pd.DataFrame(columns=['song','time','label'])
+    # start=0
 
     for file in tqdm(os.listdir(FILEPATH)):
+        allLabel=pd.DataFrame(columns=['song','time','label'])
+        start=0
         # 用vocals文件打标签
-        file = FILEPATH + file + '/vocals.wav'
+        file = FILEPATH + file + '/mixture/vocals.wav'
         file_name = file.split('/')[3]
         # print(file)
         # 特征提取
@@ -79,9 +81,10 @@ if __name__ == '__main__':
 
         length = len(label)
         for i in range(length):
-            allLabel.loc[start+i]=[file_name,"%05d"%(i+1),int(label[i])]
+            allLabel.loc[start+i]=[file_name,"%05d"%(i+1),label[i]]
+        allLabel[start:start+length].to_csv('./test_label/'+file_name+'_test_label.csv',index=False)
         start += length
-    allLabel.to_csv('./train_label.csv',index=False)
+    # allLabel.to_csv('./verification_label.csv',index=False)
 
 
 

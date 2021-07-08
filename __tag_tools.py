@@ -1,6 +1,6 @@
 from abc import abstractproperty
 from numpy.lib.function_base import append
-from spleeter.options import AudioOffsetOption
+# from spleeter.options import AudioOffsetOption
 from __Parameters import *
 
 
@@ -14,10 +14,10 @@ def prepare_data(path):
     sample_rate, sigs = wf.read(path)
     # calcuate time
     times = np.arange(len(sigs)) / sample_rate
-    f = we.open(r'vocals.wav', "rb")
+    f = we.open(path, "rb")
     params = f.getparams()
     nchannels, sampwidth, framerate, nframes = params[:4]
-    print("File params:", params)
+    # print("File params:", params)
     str_data = f.readframes(nframes)
     wave_data = np.frombuffer(str_data, dtype=np.short)
     wave_data = wave_data * 1.0 / (max(abs(wave_data)))
@@ -67,16 +67,16 @@ def get_ste(nf, frames, windown):
 
 
 def tag_wav(ste, zcc, label, start, end, audio_map):
-    num_0 = 0
-    num_1 = 0
+    # num = 0
     for i in range(start, end):
         idx = audio_map[i]
         if ste[idx] > THRESHOLD_STE and zcc[idx] < THRESHOLD_ZCC:
-            num_1 += 1
-        else:
-            num_0 += 1
-    prob = num_1 / (num_0 + num_1)
-    label.append(prob)
+            # num += 1
+            label.append(1)
+            break
+    label.append(0)
+    # prob = num / (end - start)
+    # label.append(prob)
     return label
 
 
@@ -128,11 +128,11 @@ def map_audio_zcc_ste(zcc, ste, sigs):
     audio_map = {}
     value_length = len(zcc)
     ste_length = len(ste)
-    print("zcc length:", len(zcc))
-    print("ste length:", len(ste))
+    # print("zcc length:", len(zcc))
+    # print("ste length:", len(ste))
     key_length = len(sigs)
     interval = key_length // value_length
-    print("interval:", interval)
+    # print("interval:", interval)
     __up = interval
     __cur_idx = 0
     for i in range(len(sigs)):
