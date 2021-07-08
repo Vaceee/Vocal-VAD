@@ -62,23 +62,7 @@ label = []
 file = FILEPATH
 label = split(file, ste, zcc, label, audio_map)
 
-num_1 = 0
-num_0 = 0
-for i in label:
-    if i == 1:
-        num_1 += 1
-    else:
-        num_0 += 1
-
-print("label length:", len(label))
-print("label 1 num:", num_1)
-print("label 0 num:", num_0)
-
-# for key, val in audio_map.items():
-#     print(key, val)
-
-
-# for file in os.listdir(FILEPATH):
-#     file = FILEPATH + file + '/mixture.wav'
-#     print(file)
-#     split(file)
+for file in os.listdir(FILEPATH):
+    file = FILEPATH + file + '/mixture.wav'
+    print(file)
+    split(file)
