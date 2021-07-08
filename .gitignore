@@ -1,3 +1,6 @@
+# pycache
+__pycache__
+
 # docs
 *.docx
 *.pdf
@@ -6,9 +9,10 @@ task.md
 
 # dataset
 数据集
-dataset/train/*
+dataset/*
 dataset/test/*
 dataset-temp
 
 # tools
 py-webrtcvad-master
+dataset/train/*
