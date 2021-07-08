@@ -1,9 +1,6 @@
-from abc import abstractproperty
-from numpy.lib.function_base import append
-from spleeter.options import AudioOffsetOption
 from __Parameters import *
 
-
+import os
 import numpy as np
 import wave as we
 import matplotlib.pyplot as plt
@@ -14,7 +11,8 @@ def prepare_data(path):
     sample_rate, sigs = wf.read(path)
     # calcuate time
     times = np.arange(len(sigs)) / sample_rate
-    f = we.open(r'vocals.wav', "rb")
+    os.system('cd dataset')
+    f = we.open(path, "rb")
     params = f.getparams()
     nchannels, sampwidth, framerate, nframes = params[:4]
     print("File params:", params)

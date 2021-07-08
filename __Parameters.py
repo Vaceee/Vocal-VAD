@@ -6,6 +6,5 @@ ZCC_DELTA = 0.02
 DURATION = 0.01
 
 FILEPATH = './dataset/'
-OUTPATH = './output/'
+OUTPATH = './output_prob/'
 COMMAND = 'spleeter separate -p spleeter:2stems -o output '
-
