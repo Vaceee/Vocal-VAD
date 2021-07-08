@@ -64,7 +64,7 @@ if __name__ == '__main__':
         # 用vocals文件打标签
         file = FILEPATH + file + '/vocals.wav'
         file_name = file.split('/')[3]
-        print(file)
+        # print(file)
         # 特征提取
         nf, frames, windown, framerate, sigs, times = prepare_data(file)
         time = np.arange(0, nf) * (INC * 1.0 / framerate)
@@ -73,17 +73,13 @@ if __name__ == '__main__':
         ste = get_ste(nf, frames, windown)
         # visualization(times, time, sigs, zcc, ste)
         audio_map = map_audio_zcc_ste(zcc, ste, sigs)
-        print("sigs length:", len(sigs))
+        # print("sigs length:", len(sigs))
 
         label = split(file, ste, zcc, audio_map)
 
         length = len(label)
-        # start:start+length行文件名全部赋值
-        # allLabel['song'].iloc[start:start+length] = file_name
-        for i in range(start,start+length):
-            allLabel.loc[i]=[file_name,"%05d"%(i+1),int(label[i])]
-            # allLabel['time'].iloc[start+i] = "%05d.wav"%(i+1)
-            # allLabel['label'].iloc[start+i] = label[i]
+        for i in range(length):
+            allLabel.loc[start+i]=[file_name,"%05d"%(i+1),int(label[i])]
         start += length
     allLabel.to_csv('./train_label.csv',index=False)
 
