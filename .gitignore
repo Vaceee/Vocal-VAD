@@ -6,6 +6,7 @@ __pycache__
 *.pdf
 *.drawio
 task.md
+*.csv
 
 # dataset
 数据集
