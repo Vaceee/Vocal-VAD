@@ -1,8 +1,7 @@
 import os
 from os.path import basename, join, splitext
-import argparse
 import librosa
-import numpy as np
+from tqdm import tqdm
 
 
 DURATION = 0.01
@@ -18,7 +17,7 @@ def split(file):
         total_dur = len(inaudio)
     else:   # 多声道
         total_dur = len(inaudio[0])
-    print("total_dur:",total_dur)
+    # print("total_dur:",total_dur)
     seg_dur = int(DURATION * sr)
 
     if total_dur <= seg_dur:
@@ -42,7 +41,7 @@ def split(file):
                 norm=False,
             )
 
-for file in os.listdir(FILEPATH):
+for file in tqdm(os.listdir(FILEPATH)):
     file = FILEPATH + file + '/mixture.wav'
-    print(file)
+    # print(file)
     split(file)
