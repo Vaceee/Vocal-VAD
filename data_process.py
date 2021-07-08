@@ -9,8 +9,8 @@ import numpy as np
 
 
 def split(file, ste, zcc, label, audio_map):
-    # file_path = splitext(file)[0].split('/', 2)[2].rsplit('/', 1)[0]
-    # file_name = splitext(basename(file))[0]
+    file_path = splitext(file)[0].split('/', 2)[2].rsplit('/', 1)[0]
+    file_name = splitext(basename(file))[0]
     # sr=None To preserve the native sampling rate of the file
 
     inaudio, sr = librosa.load(file, sr=None, mono=False)
@@ -32,37 +32,25 @@ def split(file, ste, zcc, label, audio_map):
             end = start + seg_dur
             if end > total_dur:
                 print("Warning: Last 1 position not reached (less than =%fs)" % DURATION)
-            sig_split = inaudio[:, start:end]
             label = tag_wav(ste, zcc, label, start, end, audio_map)
+            out_dir = OUTPATH + file_path + '/'
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
 
-            # out_dir = './dataset/' + file_path + '/'
-            # if not os.path.exists(out_dir):
-            #     os.makedirs(out_dir)
-            # # librosa 只支持输出为 wav 格式
-
-            # librosa.output.write_wav(
-            #     join(out_dir, file_name + "%05d.wav" % (n + 1)),
-            #     inaudio[:, start:end],   # 多声道取第二维
-            #     sr=sr,
-            #     norm=False,
-            # )
     return label
 
 
-nf, frames, windown, framerate, sigs, times = prepare_data(FILEPATH)
-time = np.arange(0, nf) * (INC * 1.0 / framerate)
-zcc = get_zcc(nf, frames, windown)
-ste = get_ste(nf, frames, windown)
-visualization(times, time, sigs, zcc, ste)
-audio_map = map_audio_zcc_ste(zcc, ste, sigs)
-
-print("sigs length", len(sigs))
-
 label = []
-file = FILEPATH
-label = split(file, ste, zcc, label, audio_map)
-
 for file in os.listdir(FILEPATH):
     file = FILEPATH + file + '/mixture.wav'
+    nf, frames, windown, framerate, sigs, times = prepare_data(file)
+    time = np.arange(0, nf) * (INC * 1.0 / framerate)
+    zcc = get_zcc(nf, frames, windown)
+    ste = get_ste(nf, frames, windown)
+    visualization(times, time, sigs, zcc, ste)
+    audio_map = map_audio_zcc_ste(zcc, ste, sigs)
+
+    
     print(file)
-    split(file)
+    label = split(file, ste, zcc, label, audio_map)
+
