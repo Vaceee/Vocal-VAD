@@ -1,10 +1,11 @@
 import os
 from os.path import basename, join, splitext
 import librosa
+import numpy as np
 from tqdm import tqdm
 
 
-DURATION = 0.01
+DURATION = 10
 FILEPATH = './数据集/train/'
 OUTBASEPATH = './dataset-temp/'
 
@@ -13,8 +14,11 @@ OUTBASEPATH = './dataset-temp/'
 def split(file):
     file_path = splitext(file)[0].split('/',2)[2].rsplit('/',1)[0]
     file_name = splitext(basename(file))[0]
-    inaudio, sr = librosa.load(file, sr=None, mono=False)  #sr=None To preserve the native sampling rate of the file
-    if inaudio.shape == 2:    #双声道
+    #sr=None To preserve the native sampling rate of the file
+    #mono=False To preserve the native channel number of the file
+    inaudio, sr = librosa.load(file, sr=None, mono=False)
+    print("shape",inaudio.shape)
+    if len(inaudio.shape) >= 2:    #双声道
         total_dur = len(inaudio[0])
     else:   # 单声道
         total_dur = len(inaudio)
@@ -37,7 +41,7 @@ def split(file):
             # librosa 只支持输出为 wav 格式
             librosa.output.write_wav(
                 join(out_dir, file_name + "%05d.wav" % (n + 1)),
-                inaudio[:,start:end],   # 多声道取第二维
+                inaudio[start:end].astype(np.int16),   # 多声道取第二维
                 sr=sr,
                 norm=False,
             )
