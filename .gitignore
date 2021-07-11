@@ -9,11 +9,10 @@ task.md
 *.csv
 
 # dataset
-数据集
+数据集/*
 dataset/*
-dataset/test/*
-dataset-temp
+dataset-temp/*
 
 # tools
 py-webrtcvad-master
-dataset/train/*
+

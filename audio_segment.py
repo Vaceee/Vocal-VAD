@@ -5,7 +5,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-DURATION = 10
+DURATION = 0.01
 FILEPATH = './数据集/train/'
 OUTBASEPATH = './dataset-temp/'
 
@@ -41,7 +41,7 @@ def split(file):
             # librosa 只支持输出为 wav 格式
             librosa.output.write_wav(
                 join(out_dir, file_name + "%05d.wav" % (n + 1)),
-                inaudio[start:end].astype(np.int16),   # 多声道取第二维
+                inaudio[start:end],   # 多声道取第二维
                 sr=sr,
                 norm=False,
             )
