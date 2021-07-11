@@ -12,13 +12,14 @@ import scipy.io.wavfile as wf
 
 def prepare_data(path):
     sample_rate, sigs = wf.read(path)
-    # calcuate time
-    times = np.arange(len(sigs)) / sample_rate
     f = we.open(path, "rb")
     params = f.getparams()
     nchannels, sampwidth, framerate, nframes = params[:4]
     # print("File params:", params)
+    # calcuate time
+    times = np.arange(nframes) / framerate
     str_data = f.readframes(nframes)
+
     wave_data = np.frombuffer(str_data, dtype=np.short)
     wave_data = wave_data * 1.0 / (max(abs(wave_data)))
     signal_length = len(wave_data)
@@ -38,7 +39,7 @@ def prepare_data(path):
     indices = np.array(indices, dtype=np.int32)
     frames = pad_signal[indices]
     windown = np.hamming(WLEN)
-    return nf, frames, windown, framerate, sigs, times
+    return nf, frames, windown, nframes, framerate, sigs, times
 
 
 def get_zcc(nf, frames, windown):
@@ -72,12 +73,10 @@ def tag_wav(ste, zcc, label, start, end, audio_map):
         idx = audio_map[i]
         if ste[idx] > THRESHOLD_STE and zcc[idx] < THRESHOLD_ZCC:
             num += 1
-            # label.append(1)
-            # return label
-    # label.append(0)
+            # return 1
+    # return 0
     prob = num / (end - start)
-    label.append(prob)
-    return label
+    return prob
 
 
 def visualization(times, time, sigs, zcc, ste):
