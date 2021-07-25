@@ -119,7 +119,7 @@ def visualization(times, time, sigs, zcc, ste):
 
     plt.rcParams['savefig.dpi'] = 500  # 图片像素
     plt.rcParams['figure.dpi'] = 500  # 分辨率
-    plt.savefig('image.png')
+    plt.savefig('./img/ZCC_STE.png')
     plt.show()
 
 
