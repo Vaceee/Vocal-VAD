@@ -73,8 +73,6 @@ def tag_wav(ste, zcc, label, start, end, audio_map):
         idx = audio_map[i]
         if ste[idx] > THRESHOLD_STE and zcc[idx] < THRESHOLD_ZCC:
             num += 1
-            # return 1
-    # return 0
     prob = num / (end - start)
     return prob
 
